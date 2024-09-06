@@ -5,17 +5,58 @@ const mainEl = document.querySelector("main");
 const monthAndYear = document.querySelector(".monthAndYear");
 const prevBtn = document.querySelector(".prevtBtn");
 const nextBtn = document.querySelector(".nextBtn");
-
+const calendarContainer = document.querySelector(".calendarContainer__dayNumbers");
 
 
 // ----- STATE VARIABLES -----
 
-const currentDate = new Date();
-let year = currentDate.getFullYear();
-let month = currentDate.getMonth();
-const date = currentDate.toDateString();
+const currentDate = new Date(); // We get current date
+let year = currentDate.getFullYear(); // current year 
+let month = currentDate.getMonth(); // current month
+let dateToDisplay = new Date(year, month); // current date starting from the 1st day of the month based on the currentDate above
 
-console.log(currentDate)
+let currentMonthFirstDayName = dateToDisplay.toDateString().split(" ")[0]; //first 3 letters of the current day "Sun" for "Sunday"
+let daysCurrentMonth = getAllDaysInTheMonth(); //we track how many days are in the current months
+
+
+console.log("currentDate: ", currentDate);
+console.log("year: ", year);
+console.log("month: ", month);
+console.log("dateToDisplay: ", dateToDisplay);
+console.log("current month first day name: ", currentMonthFirstDayName);
+console.log("number of days in current month: ", daysCurrentMonth);
+
+
+// While the dateToDisplay's month is equal to month, we will increase the day of the "dateToDisplay" until it changes to the next month
+function getAllDaysInTheMonth(){
+    const numberOfName = numberOfDayName(currentMonthFirstDayName); // number associated to name of the day
+    const array = [];
+    let index = 0;
+
+    console.log("current month first day name is :", currentMonthFirstDayName, "and it's index is: " ,numberOfName);
+    if(numberOfName > 0) {
+        for(let i = 0; i < numberOfName; i++){
+            array.push("");
+        }
+    }
+
+    while(dateToDisplay.getMonth() === month){
+        dateToDisplay.setDate(dateToDisplay.getDate() + 1);
+        index++;
+        array.push(index);
+    }
+
+
+    return array;
+}
+
+
+function numberOfDayName(dayName){
+    const names = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+    return names.indexOf(dayName.toLowerCase());
+
+}
+
 
 // ----- EVENT LISTENERS -----
 
@@ -35,89 +76,18 @@ function renderMonthYear(){
 
 function renderUI(){
     renderMonthYear();
-    const tableTemplate = `
-        <table class="calendar" >
-            <thead class="calendar__thead">
-                <tr>   <!-- table row -->
-                    <th>Sun</th>  <!-- table header -->
-                    <th>Mon</th>
-                    <th>Tue</th>
-                    <th>Wed</th>
-                    <th>Thu</th>
-                    <th>Fri</th>
-                    <th>Sat</th>
-                </tr>
-            </thead>
-
-
-            <tbody class="calendar__tbody">
-                <tr>  <!-- table row -->
-                    <td></td>   <!-- table data -->
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-        
-                <tr>  <!-- table row -->
-                    <td>  <!-- table data -->
-                        
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-        
-                <tr>  <!-- table row -->
-                    <td>  <!-- table data -->
-                        
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-        
-                <tr>  <!-- table row -->
-                    <td>  <!-- table data -->
-                        
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-
-                <tr>  <!-- table row -->
-                    <td>  <!-- table data --
-                        
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td class="outOfMonth" ></td>
-                    <td class="outOfMonth" ></td>
-                    <td class="outOfMonth" ></td>
-                    <td class="outOfMonth" ></td>
-                </tr>
-            </tbody>
-            
-        </table>
-    `;
-
-    mainEl.insertAdjacentHTML("beforeend", tableTemplate);
+    calendarContainer.innerHTML = "";
+    let html = "";
+    for(let i = 0; i < daysCurrentMonth.length; i++){
+        const segment = `
+            <div class="dayNumbers__day">${daysCurrentMonth[i]}</div>
+        `;
+        html += segment;
+        calendarContainer.innerHTML = html;
+    }
 }
 
 function nextMonth(){
-    console.log(currentDate);
     if(month < 11){
         month++;
     }
@@ -125,11 +95,24 @@ function nextMonth(){
         month = 0;
         year++;
     }
-    renderMonthYear();
+
+
+    let daysCurrentMonth = getAllDaysInTheMonth(); //we track how many days are in the current months
+    let currentMonthFirstDayName = dateToDisplay.toDateString().split(" ")[0]; //first 3 letters of the current day "Sun" for "Sunday"
+    renderUI();
+    dateToDisplay = new Date(year, month);
+    
+
+    console.log("currentDate: ", currentDate);
+    console.log("year: ", year);
+    console.log("month: ", month);
+    console.log("dateToDisplay: ", dateToDisplay);
+    console.log("current month first day name: ", currentMonthFirstDayName);
+    console.log("number of days in current month: ", daysCurrentMonth);
+
 }
 
 function prevMonth(){
-    console.log(currentDate);
     if(month > 0){
         month--;
     }
@@ -137,21 +120,17 @@ function prevMonth(){
         month = 11;
         year--;
     }
-    renderMonthYear();
+    // renderMonthYear();
+    renderUI();
+    dateToDisplay = new Date(year, month);
+    console.log(dateToDisplay);
 }
 
 
 
 
 
-
-
-
-
-
-
 // ----- OTHER FUNCTIONS -----
-
 
 function displayCorrectMonth(numberOfMonth = 0){
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "Octuber", "November", "December"];
