@@ -1,6 +1,6 @@
 // ----- DOM ELEMENTS -----
 
-const mainEl = document.querySelector("main");
+// const mainEl = document.querySelector("main");
 const monthAndYear = document.querySelector(".monthAndYear");
 const prevBtn = document.querySelector(".prevtBtn");
 const nextBtn = document.querySelector(".nextBtn");
@@ -55,7 +55,7 @@ function renderUI(){
 
     daysCurrentMonth.forEach(element => {
         const segment = `
-            <div class="dayNumbers__day ${element === day && month === currentDate.getMonth() && "currentDay"}">${element}</div>
+            <div class="dayNumbers__day ${element === day && month === currentDate.getMonth() && year === currentDate.getFullYear() && "currentDay"}">${element}</div>
         `;
         html += segment;
 
@@ -161,6 +161,7 @@ function getAllDaysInTheMonth(){
         array.push(index);
     }
     dateToDisplay.setMonth(month);
+
     return array;
 }
 
