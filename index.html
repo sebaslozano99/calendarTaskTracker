@@ -10,25 +10,25 @@
 <body>
 
     <main>
-        <header>    
-            <h1 class="monthAndYear" >September 2024</h1>
+        <header class="header" >    
+            <h1 class="header__title" >September 2024</h1>
     
-            <div>
-                <button class="prevtBtn" >&lt;</button>
-                <button class="nextBtn" >&gt;</button>
+            <div class="header__button-containers">
+                <button class="button prevtBtn" >&lt;</button>
+                <button class="button nextBtn" >&gt;</button>
             </div>
         </header>
 
         <div class="calendarContainer" >
 
             <div class="calendarContainer__dayNames">
-                <span class="dayNames__name">Sun</span>
-                <span class="dayNames__name">Mon</span>
-                <span class="dayNames__name">Tue</span>
-                <span class="dayNames__name">Wed</span>
-                <span class="dayNames__name">Thu</span>
-                <span class="dayNames__name">Fri</span>
-                <span class="dayNames__name">Sat</span>
+                <span class="name">Sun</span>
+                <span class="name">Mon</span>
+                <span class="name">Tue</span>
+                <span class="name">Wed</span>
+                <span class="name">Thu</span>
+                <span class="name">Fri</span>
+                <span class="name">Sat</span>
             </div>
 
             <div class="calendarContainer__dayNumbers" >
@@ -41,6 +41,30 @@
                 <div class="dayNumbers__day">7</div> -->
             </div>
         </div>
+
+        <section class="modal" >
+
+            <div  class="modal__date-info" >
+                <h3 class="" >September 09 2024</h3>
+            </div>
+
+            <div class="modal__todo-list" >
+                <form>
+                    <input type="text" placeholder="add new task">
+                </form>
+    
+    
+                <ul>
+                    <li>Go to work</li>
+                    <li>Go to work</li>
+                    <li>Go to work</li>
+                    <li>Go to work</li>
+                    <li>Go to work</li>
+                    <li>Go to work</li>
+                </ul>
+            </div>
+        </section>
+
     </main>
 
 </body>

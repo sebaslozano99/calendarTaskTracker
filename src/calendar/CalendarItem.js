@@ -12,5 +12,7 @@ function clickHandler(e){
 
     console.log(target.textContent);
 
-    
+    const todoListHTML = `
+        
+    `;
 }

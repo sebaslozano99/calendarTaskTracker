@@ -18,18 +18,6 @@ import { displayCorrectMonth, updateUI } from "../otherFunc.js";
 
 
 
-
-
-    // console.log("year: ", year);
-    // console.log("month: ", month);
-    // console.log("day: ", day);
-    // console.log("dateToDisplay: ", dateToDisplay);
-    // console.log("currentMonthFirstDayName: ", currentMonthFirstDayName);
-    // console.log("indexOfDay: ", indexOfDay);
-    // console.log("daysCurrentMonth: ", daysCurrentMonth);
-
-
-
 // ----- EVENT LISTENERS -----
 
 window.addEventListener("DOMContentLoaded", renderUI);
@@ -41,7 +29,6 @@ prevBtn.addEventListener("click", prevMonth);
 
 
 // ----- HELPER FUNCTIONS -----
-
 
 export function renderUI(){
 
@@ -59,7 +46,7 @@ export function renderUI(){
         const isPast = year < currentDate.getFullYear() || month < currentDate.getMonth() && year <= currentDate.getFullYear() || element < currentDate.getDate() && month <= currentDate.getMonth() && year <= currentDate.getFullYear();    
 
         const segment = `
-            <div class="dayNumbers__day ${isCurrentTime ? "currentDay" : ""}  ${isPast ? "invalid" : ""}" >${element}</div>
+            <div class="dayNumbers ${isCurrentTime ? "dayNumbers--currentDay" : ""}  ${isPast ? "dayNumbers--invalid" : ""}" >${element}</div>
         `;
         html += segment;
     })
@@ -82,9 +69,6 @@ function nextMonth(){
     }
 
     updateUI();
-    // console.log("currentMonthFirstDayName: ", currentMonthFirstDayName);
-    // console.log("indexOfDay: ", indexOfDay);
-    // console.log("daysCurrentMonth: ", daysCurrentMonth);
 }
 
 
@@ -101,9 +85,6 @@ function prevMonth(){
     }
 
     updateUI();
-    // console.log("currentMonthFirstDayName: ", currentMonthFirstDayName);
-    // console.log("indexOfDay: ", indexOfDay);
-    // console.log("daysCurrentMonth: ", daysCurrentMonth);
 }
 
 
