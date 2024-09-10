@@ -159,6 +159,12 @@ header button:hover {
     cursor: pointer;
 }
 
+.invalid {
+    color: gray;
+    pointer-events: none;
+    text-decoration: line-through;
+}
+
 
 .dayNumbers__day:hover {
     background-color: #e3e3e3;

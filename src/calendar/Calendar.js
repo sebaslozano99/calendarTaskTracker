@@ -54,11 +54,14 @@ export function renderUI(){
     let html = "";
 
     daysCurrentMonth.forEach(element => {
+
+        const isCurrentTime = element === day && month === currentDate.getMonth() && year === currentDate.getFullYear();
+        const isPast = year < currentDate.getFullYear() || month < currentDate.getMonth() && year <= currentDate.getFullYear() || element < currentDate.getDate() && month <= currentDate.getMonth() && year <= currentDate.getFullYear();    
+
         const segment = `
-            <div class="dayNumbers__day ${element === day && month === currentDate.getMonth() && year === currentDate.getFullYear() && "currentDay"}">${element}</div>
+            <div class="dayNumbers__day ${isCurrentTime ? "currentDay" : ""}  ${isPast ? "invalid" : ""}" >${element}</div>
         `;
         html += segment;
-
     })
 
     calendarContainer.innerHTML = html;
