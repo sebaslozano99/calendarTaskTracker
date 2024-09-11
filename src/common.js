@@ -3,11 +3,12 @@ import { indexOfDayName, getAllDaysInTheMonth } from "./otherFunc.js";
 
 // ----- DOM ELEMENTS -----
 
+export const mainEl = document.querySelector("main");
 export const monthAndYear = document.querySelector(".header__title");
 export const prevBtn = document.querySelector(".prevtBtn");
 export const nextBtn = document.querySelector(".nextBtn");
 export const calendarContainer = document.querySelector(".calendarContainer__dayNumbers");
-
+// export const closeModalEl = document.querySelector(".close-modal");
 
 // ----- STATE VARIABLES -----
 
