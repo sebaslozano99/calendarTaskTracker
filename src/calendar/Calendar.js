@@ -1,4 +1,5 @@
-import { calendarContainer, 
+import { 
+    calendarContainer, 
     monthAndYear, 
     prevBtn, 
     nextBtn,
@@ -6,15 +7,14 @@ import { calendarContainer,
     year, 
     month, 
     day, 
-    dateToDisplay, 
-    indexOfDay, 
     daysCurrentMonth,
     setMonth,
     setYear,
-    currentMonthFirstDayName
+    fillTodosContainer,
 } from "../common.js";
-
 import { displayCorrectMonth, updateUI } from "../otherFunc.js";
+
+
 
 
 
@@ -40,20 +40,43 @@ export function renderUI(){
     
     let html = "";
 
-    daysCurrentMonth.forEach(element => {
+    daysCurrentMonth.forEach((element, i) => {
 
         const isCurrentTime = element === day && month === currentDate.getMonth() && year === currentDate.getFullYear();
-        const isPast = year < currentDate.getFullYear() || month < currentDate.getMonth() && year <= currentDate.getFullYear() || element < currentDate.getDate() && month <= currentDate.getMonth() && year <= currentDate.getFullYear();    
-
+        const isPast = year < currentDate.getFullYear() || month < currentDate.getMonth() && year <= currentDate.getFullYear() || element < currentDate.getDate() && month <= currentDate.getMonth() && year <= currentDate.getFullYear(); 
+        
+        //For each one the the days in the month, we add a todoList array to our TodoLists container
+        if(i === 15 || i === 16){
+            fillTodosContainer([
+                {
+                paragraph: "asadsadasdas",
+                isCompleted: true,
+                },
+                {
+                paragraph: "asadsadasdas",
+                isCompleted: false,
+                },
+                {
+                paragraph: "asadsadasdas",
+                isCompleted: true,
+                },
+        ], i);
+        }
+        else{
+            fillTodosContainer([], i);
+        }
+        
         const segment = `
-            <div class="dayNumbers ${isCurrentTime ? "dayNumbers--currentDay" : ""}  ${isPast ? "dayNumbers--invalid" : ""}" >${element}</div>
+            <div id="${i}" class="dayNumbers ${isCurrentTime ? "dayNumbers--currentDay" : ""}  ${isPast ? "dayNumbers--invalid" : ""}" >${element}</div>
         `;
+
         html += segment;
     })
 
     calendarContainer.innerHTML = html;
     html = ""; 
 }
+
 
 
 

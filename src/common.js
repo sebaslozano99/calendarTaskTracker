@@ -1,6 +1,9 @@
 import { indexOfDayName, getAllDaysInTheMonth } from "./otherFunc.js";
 
 
+
+
+
 // ----- DOM ELEMENTS -----
 
 export const mainEl = document.querySelector("main");
@@ -8,7 +11,9 @@ export const monthAndYear = document.querySelector(".header__title");
 export const prevBtn = document.querySelector(".prevtBtn");
 export const nextBtn = document.querySelector(".nextBtn");
 export const calendarContainer = document.querySelector(".calendarContainer__dayNumbers");
-// export const closeModalEl = document.querySelector(".close-modal");
+export const modalEl = document.querySelector(".modal");
+
+
 
 // ----- STATE VARIABLES -----
 
@@ -20,22 +25,29 @@ export let dateToDisplay = new Date(year, month); // current date starting from 
 export let currentMonthFirstDayName = dateToDisplay.toDateString().split(" ")[0]; //first 3 letters of the current day "Sun" for "Sunday"
 export let indexOfDay = indexOfDayName(currentMonthFirstDayName); // number associated to name of the first day of the month
 export let daysCurrentMonth = getAllDaysInTheMonth(); //we track how many days are in the current months
-
+export let todosContainer = []; // Array of arrays (tasks), that contains the todo list of each day
+export let todosContainerIndexToChange; 
 
 
 
 
 // ----- SETTER FUNCTIONS ----- 
 
+export function setTodosContainerIndexToChange(newIndex){
+    todosContainerIndexToChange = newIndex;
+}
+
+export function fillTodosContainer(newTodoList){
+    todosContainer.push(newTodoList);
+}
+
+export function setTodosContainer(newTaskObj, index){
+    todosContainer[index].push(newTaskObj);
+}
+
+
 export function setMonth(newMonth) {
     month = newMonth;
-    // console.log("year: ", year);
-    // console.log("month: ", month);
-    // console.log("day: ", day);
-    // console.log("dateToDisplay: ", dateToDisplay);
-    // console.log("currentMonthFirstDayName: ", currentMonthFirstDayName);
-    // console.log("indexOfDay: ", indexOfDay);
-    // console.log("daysCurrentMonth: ", daysCurrentMonth);
 }
 
 export function setYear(newYear) {
