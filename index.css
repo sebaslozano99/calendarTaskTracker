@@ -245,10 +245,37 @@ main {
 }
 
 
-.delete-item{
-    padding: 5px;
-    cursor: pointer;
+
+
+
+
+/*  STYLE APPLIED OVER THE TEXT ONCE USER COMPLETES THE TASK  */
+.paragraph-completed {
+    text-decoration: line-through;
+    color: rgb(83, 83, 83);
 }
+
+
+
+
+.list-item__buttons-container {
+    /* border: 1px solid red; */
+    display: flex;
+    gap: 10px;
+}
+
+
+.tasks-button {
+    padding: 5px;
+    cursor: pointer; 
+    border-style: none;
+}
+
+.delete-item{
+    background-color: red;
+    color: #fff;
+}
+
 
 /* MODAL DATE LIST */
 

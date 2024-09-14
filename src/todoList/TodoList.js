@@ -1,12 +1,13 @@
-import { mainEl, modalEl, todosContainer, todosContainerIndexToChange, year, month, addTaskTodosContainer, deleteTaskTodosContainer } from "../common.js";
+import { mainEl, modalEl, todosContainer, todosContainerIndexToChange, year, month, addTaskTodosContainer, deleteTaskTodosContainer, markAsCompletedTodosContainer } from "../common.js";
 import { displayCorrectMonth } from "../otherFunc.js";
 
 
 
 // EVENT LISTENERS 
-mainEl.addEventListener("click", closeModal);
 mainEl.addEventListener("submit", submitHandler);
+mainEl.addEventListener("click", closeModal);
 mainEl.addEventListener("click", deleteTaskHandler);
+mainEl.addEventListener("click", markAsCompleted);
 
 
 
@@ -68,6 +69,38 @@ function deleteTaskHandler(e){
 }
 
 
+function updateTaskHandler(e){
+
+    const target = e.target;
+    
+    if(!target.matches(".update-task")) return;
+    
+    const usersTask = target.previousElementSibling.innerText;
+    
+    deleteTaskTodosContainer(todosContainerIndexToChange, usersTask);
+    
+    renderTodoList(todosContainerIndexToChange);
+    
+}
+
+
+function markAsCompleted(e){
+
+    const target = e.target;
+
+    if(!target.matches(".isCompleted")) return;
+
+    const usersTask = target.nextElementSibling.innerText;
+
+    markAsCompletedTodosContainer(todosContainerIndexToChange, usersTask);
+
+    renderTodoList(todosContainerIndexToChange);
+
+    console.log(todosContainer[todosContainerIndexToChange]);
+
+}
+
+
 
 // MODAL HTML GENERATOR FUNCTION
 
@@ -92,15 +125,20 @@ function renderTodoList(day){
             <ul class="modal__todo-list__ul" >
                 ${todoListThisDay.length ?
                     todoListThisDay.map(element => 
+
                     `<li class="list-item" >
                         <input type="checkbox" name="isCompleted" class="isCompleted" ${element.isCompleted ? "checked" : ""} >
-                        <p>${element.paragraph}</p>
-                        <button class="delete-item" >delete</button>
+                        <p class="${element.isCompleted ? "paragraph-completed" : ""}" >${element.paragraph}</p>
+
+                        <div class="list-item__buttons-container" >
+                            <button class="tasks-button delete-item" >delete</button>    
+                            <button class="tasks-button update-task">update</button>
+                       </div> 
                     </li>`).join("")
 
                     :
 
-                    `<p>No tasks found!</p>`
+                    `<p>Add some tasks!</p>`
                 }
             </ul> 
 

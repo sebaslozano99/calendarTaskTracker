@@ -32,8 +32,6 @@ prevBtn.addEventListener("click", prevMonth);
 
 export function renderUI(){
 
-    console.log(daysCurrentMonth);
-
     const monthToDisplay = displayCorrectMonth(month);
     monthAndYear.textContent = `${monthToDisplay} ${year}`;
 

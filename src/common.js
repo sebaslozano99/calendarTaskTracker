@@ -40,8 +40,20 @@ export function addTaskTodosContainer(newTaskObj, index){
 }
 
 export function deleteTaskTodosContainer(index, textOfElement){
-    console.log(index, textOfElement)
     todosContainer[index] = todosContainer[index].filter(task => task.paragraph !== textOfElement);
+}
+
+export function markAsCompletedTodosContainer(index, textOfElement){
+    todosContainer[index].forEach(task => {
+        if(task.paragraph === textOfElement){
+            if(task.isCompleted){
+                task.isCompleted = false;
+            }
+            else{
+                task.isCompleted = true;
+            }
+        }
+    });
 }
 
 
