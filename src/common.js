@@ -29,21 +29,31 @@ export let todosContainer = []; // Array of arrays (tasks), that contains the to
 export let todosContainerIndexToChange; 
 
 
-
-
 // ----- SETTER FUNCTIONS ----- 
-
-export function setTodosContainerIndexToChange(newIndex){
-    todosContainerIndexToChange = newIndex;
-}
 
 export function fillTodosContainer(newTodoList){
     todosContainer.push(newTodoList);
 }
 
-export function setTodosContainer(newTaskObj, index){
+export function addTaskTodosContainer(newTaskObj, index){
     todosContainer[index].push(newTaskObj);
 }
+
+export function deleteTaskTodosContainer(index, textOfElement){
+    console.log(index, textOfElement)
+    todosContainer[index] = todosContainer[index].filter(task => task.paragraph !== textOfElement);
+}
+
+
+
+
+
+export function setTodosContainerIndexToChange(newIndex){
+    todosContainerIndexToChange = newIndex;
+}
+
+
+
 
 
 export function setMonth(newMonth) {
@@ -54,22 +64,17 @@ export function setYear(newYear) {
     year = newYear;
 }
 
-
-
 export function setCurrentMonthFirstDayName(newCurrentMonthFirstDayName){
     currentMonthFirstDayName = newCurrentMonthFirstDayName;
 }
-
 
 export function setIndexOfDay(newIndexOfDay){
     indexOfDay = newIndexOfDay;
 }
 
-
 export function setDaysCurrentMonth(newDaysCurrentMonth){
     daysCurrentMonth = newDaysCurrentMonth;
 }
-
 
 export function setDateToDisplay(newDateToDisplay){
     dateToDisplay = newDateToDisplay;

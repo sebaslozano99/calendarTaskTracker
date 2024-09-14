@@ -32,6 +32,8 @@ prevBtn.addEventListener("click", prevMonth);
 
 export function renderUI(){
 
+    console.log(daysCurrentMonth);
+
     const monthToDisplay = displayCorrectMonth(month);
     monthAndYear.textContent = `${monthToDisplay} ${year}`;
 
@@ -46,28 +48,11 @@ export function renderUI(){
         const isPast = year < currentDate.getFullYear() || month < currentDate.getMonth() && year <= currentDate.getFullYear() || element < currentDate.getDate() && month <= currentDate.getMonth() && year <= currentDate.getFullYear(); 
         
         //For each one the the days in the month, we add a todoList array to our TodoLists container
-        if(i === 15 || i === 16){
-            fillTodosContainer([
-                {
-                paragraph: "asadsadasdas",
-                isCompleted: true,
-                },
-                {
-                paragraph: "asadsadasdas",
-                isCompleted: false,
-                },
-                {
-                paragraph: "asadsadasdas",
-                isCompleted: true,
-                },
-        ], i);
-        }
-        else{
-            fillTodosContainer([], i);
-        }
+        fillTodosContainer([]);
+        
         
         const segment = `
-            <div id="${i}" class="dayNumbers ${isCurrentTime ? "dayNumbers--currentDay" : ""}  ${isPast ? "dayNumbers--invalid" : ""}" >${element}</div>
+            <div id="${i+1}" class="dayNumbers ${isCurrentTime ? "dayNumbers--currentDay" : ""}  ${isPast ? "dayNumbers--invalid" : ""}" >${element}</div>
         `;
 
         html += segment;
@@ -76,7 +61,6 @@ export function renderUI(){
     calendarContainer.innerHTML = html;
     html = ""; 
 }
-
 
 
 

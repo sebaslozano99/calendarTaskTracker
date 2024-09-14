@@ -1,6 +1,5 @@
-import { mainEl, modalEl, todosContainer, todosContainerIndexToChange, year, month, setTodosContainer } from "../common.js";
+import { mainEl, modalEl, todosContainer, todosContainerIndexToChange, year, month, addTaskTodosContainer, deleteTaskTodosContainer } from "../common.js";
 import { displayCorrectMonth } from "../otherFunc.js";
-
 
 
 
@@ -8,7 +7,6 @@ import { displayCorrectMonth } from "../otherFunc.js";
 mainEl.addEventListener("click", closeModal);
 mainEl.addEventListener("submit", submitHandler);
 mainEl.addEventListener("click", deleteTaskHandler);
-
 
 
 
@@ -34,8 +32,8 @@ function submitHandler(e){
 
     //select DOM elements that were generated dynamically 
     const inputEl = mainEl.querySelector(".form__input");
-    // const listTasksContainer = mainEl.querySelector(".modal__todo-list__ul");
 
+    //Submit only if something typed in in the input field
     if(!inputEl.value) return;
 
     const newTaskObj = {
@@ -43,23 +41,30 @@ function submitHandler(e){
         isCompleted: false,
     }
 
-    setTodosContainer(newTaskObj, todosContainerIndexToChange);
-    console.log(todosContainer);
+    // add new task to the specific array by passing the index
+    addTaskTodosContainer(newTaskObj, todosContainerIndexToChange); 
 
-    renderTodoList(17);
+    // after new task added to the specified day's todo list, re-render the UI 
+    renderTodoList(todosContainerIndexToChange);
 
-    // const newTaskMarkUp = generateNewTaskHTML(newTaskObj);
-    // listTasksContainer.insertAdjacentHTML("beforeend", newTaskMarkUp);
+    const inputAfterRerenderEl = mainEl.querySelector(".form__input");
 
-    inputEl.value ="";
-    inputEl.focus();
+    inputAfterRerenderEl.focus();
 }
 
 
 function deleteTaskHandler(e){
+
     const target = e.target;
+    
     if(!target.matches(".delete-item")) return;
-    target.parentElement.remove();
+    
+    const usersTask = target.previousElementSibling.innerText;
+    
+    deleteTaskTodosContainer(todosContainerIndexToChange, usersTask);
+    
+    renderTodoList(todosContainerIndexToChange);
+    
 }
 
 
@@ -97,7 +102,7 @@ function renderTodoList(day){
 
                     `<p>No tasks found!</p>`
                 }
-            </ul>
+            </ul> 
 
         </div>
     `;
@@ -105,7 +110,7 @@ function renderTodoList(day){
     //append it to the mainEl
     modalEl.innerHTML = todoListLayout;
 
-    // return todoListLayout;
 }
 
 export default renderTodoList;
+

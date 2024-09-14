@@ -21,18 +21,5 @@ function clickHandler(e){
     // //set index state. This'll be handy when submitting a new task, we'll update the correct array
     setTodosContainerIndexToChange(id);
 
-    renderTodoList(+e.target.textContent)
-
-    // //get correct array to display todolist of specific day
-    // const todoListThisDay = todosContainer[id];
-
-
-    // console.log(todoListThisDay);
-
-    // //generate HTML markup
-    // const todoListHTML = renderTodoList(year, month, +target.textContent, todoListThisDay);
-
-    // //append it to the mainEl
-    // mainEl.insertAdjacentHTML("beforeend", todoListHTML);
-
+    renderTodoList(+e.target.textContent);
 }
