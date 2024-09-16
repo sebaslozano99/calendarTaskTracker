@@ -276,6 +276,12 @@ main {
     border-style: none;
 }
 
+.tasks-button:disabled {
+    background-color: #909090;
+    color: #000;
+    cursor:not-allowed;
+}
+
 .delete-item{
     background-color: red;
     color: #fff;

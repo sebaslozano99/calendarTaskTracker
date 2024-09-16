@@ -1,14 +1,15 @@
-import { mainEl, modalEl, todosContainer, todosContainerIndexToChange, year, month, addTaskTodosContainer, deleteTaskTodosContainer, markAsCompletedTodosContainer, updatingTaskTodosContainer, setAllFalseIsUpdatingTodosContainer } from "../common.js";
-import { displayCorrectMonth } from "../otherFunc.js";
+import { modalEl, todosContainer, todosContainerIndexToChange, addTaskTodosContainer, deleteTaskTodosContainer, markAsCompletedTodosContainer, updatingTaskTodosContainer, setAllFalseIsUpdatingTodosContainer, updateTaskTodosContainer } from "../common.js";
+// import { displayCorrectMonth } from "../otherFunc.js";
+import renderTodoList from "./TodoListUi.js";
 
 
 
 // EVENT LISTENERS 
-mainEl.addEventListener("submit", submitHandler);
-mainEl.addEventListener("click", closeModal);
-mainEl.addEventListener("click", deleteTaskHandler);
-mainEl.addEventListener("click", markAsCompleted);
-mainEl.addEventListener("click", updateTaskHandler);
+modalEl.addEventListener("submit", submitHandler);
+modalEl.addEventListener("click", closeModal);
+modalEl.addEventListener("click", deleteTaskHandler);
+modalEl.addEventListener("click", markAsCompleted);
+modalEl.addEventListener("click", updateTaskHandler);
 
 
 
@@ -16,9 +17,11 @@ mainEl.addEventListener("click", updateTaskHandler);
 // HELPER FUNCTIONS
 
 function closeModal(e){
-    
+
     const target = e.target;
+
     if(!target.matches(".close-modal")) return;
+
     modalEl.classList.remove("appear");
 
 }
@@ -32,25 +35,33 @@ function submitHandler(e){
 
     if(!target.matches(".modal__todo-list__form")) return;
 
+    // users intention - either add new task or update an existing task
+    const isUserUpdating = todosContainer[todosContainerIndexToChange].find((task) => task.isUpdating === true);
+
     //select DOM elements that were generated dynamically 
-    const inputEl = mainEl.querySelector(".form__input");
+    const inputEl = modalEl.querySelector(".form__input");
 
     //Submit only if something typed in in the input field
     if(!inputEl.value) return;
 
-    const newTaskObj = {
-        paragraph: inputEl.value,
-        isCompleted: false,
-        isUpdating: false,
+    if(!isUserUpdating) {
+        const newTaskObj = {
+            paragraph: inputEl.value,
+            isCompleted: false,
+            isUpdating: false,
+        }
+    
+        // add new task to the specific array by passing the index
+        addTaskTodosContainer(newTaskObj, todosContainerIndexToChange); 
+    }
+    else{
+        updateTaskTodosContainer(todosContainerIndexToChange, isUserUpdating.paragraph, inputEl.value);
     }
 
-    // add new task to the specific array by passing the index
-    addTaskTodosContainer(newTaskObj, todosContainerIndexToChange); 
-
     // after new task added to the specified day's todo list, re-render the UI 
-    renderTodoList(todosContainerIndexToChange);
+    renderTodoList();
 
-    const inputAfterRerenderEl = mainEl.querySelector(".form__input");
+    const inputAfterRerenderEl = modalEl.querySelector(".form__input");
 
     inputAfterRerenderEl.focus();
 }
@@ -66,7 +77,9 @@ function deleteTaskHandler(e){
     
     deleteTaskTodosContainer(todosContainerIndexToChange, usersTask);
     
-    renderTodoList(todosContainerIndexToChange);
+    renderTodoList();
+
+    console.log(todosContainer[todosContainerIndexToChange]); 
     
 }
 
@@ -79,17 +92,25 @@ function updateTaskHandler(e){
     
     const usersTask = target.parentElement.previousElementSibling.innerText;
 
+    // set all tasks's isUpdating property to false - in case user had previously one task's isUpdating property set as TRUE, and clicked on "updateBtn" before updating the previous one.
+    todosContainer[todosContainerIndexToChange].forEach(task => {
+        if(task.paragraph !== usersTask && task.isUpdating){
+            task.isUpdating = false;
+        }
+    });
+
     updatingTaskTodosContainer(todosContainerIndexToChange, usersTask);
 
-    // set all tasks's isUpdating property to false in case there is already a task that is being updated
-    // if(document.querySelectorAll(".isUpdating").length >= 1){
-    //     setAllFalseIsUpdatingTodosContainer(todosContainerIndexToChange);
-    // }
+    renderTodoList();
 
-    renderTodoList(todosContainerIndexToChange);
+    const inputEl = modalEl.querySelector(".form__input");
 
-    console.log(document.querySelectorAll(".isUpdating").length);
+    const isUserUpdating = todosContainer[todosContainerIndexToChange].find((task) => task.isUpdating === true);
     
+    inputEl.value = isUserUpdating ? isUserUpdating.paragraph : "";
+
+    inputEl.focus();
+
 }
 
 
@@ -103,62 +124,8 @@ function markAsCompleted(e){
 
     markAsCompletedTodosContainer(todosContainerIndexToChange, usersTask);
 
-    renderTodoList(todosContainerIndexToChange);
+    renderTodoList();
 
     console.log(todosContainer[todosContainerIndexToChange]);
 
 }
-
-
-
-// MODAL HTML GENERATOR FUNCTION
-
-function renderTodoList(day){
-    console.log("renmdered!");
-
-    //get correct array to display todolist of specific day
-    const todoListThisDay = todosContainer[todosContainerIndexToChange];
-    
-    const todoListLayout = `
-        <button class="close-modal">x</button>
-
-        <div  class="modal__date-info" >
-            <h3 class="date-info" >${displayCorrectMonth(month)} ${day} ${year}</h3>
-        </div>
-
-        <div class="modal__todo-list" >
-
-            <form class="modal__todo-list__form">
-                <input type="text" placeholder="add new task" class="form__input" >
-            </form>
-
-            <ul class="modal__todo-list__ul" >
-                ${todoListThisDay.length ?
-                    todoListThisDay.map(element => 
-
-                    `<li class="list-item ${element.isUpdating && "isUpdating"}" >
-                        <input type="checkbox" name="isCompleted" class="isCompleted" ${element.isCompleted ? "checked" : ""} >
-                        <p class="${element.isCompleted ? "paragraph-completed" : ""}" >${element.paragraph}</p>
-
-                        <div class="list-item__buttons-container" >
-                            <button class="tasks-button delete-item" >delete</button>    
-                            <button class="tasks-button update-task">update</button>
-                       </div> 
-                    </li>`).join("")
-
-                    :
-
-                    `<p>Add some tasks!</p>`
-                }
-            </ul> 
-
-        </div>
-    `;
-
-    //append it to the mainEl
-    modalEl.innerHTML = todoListLayout;
-
-}
-
-export default renderTodoList;
-

@@ -1,5 +1,5 @@
 import { modalEl, calendarContainer, setTodosContainerIndexToChange } from "../common.js";
-import renderTodoList from "../todoList/TodoList.js";
+import renderTodoList from "../todoList/TodoListUi.js";
 
 
 calendarContainer.addEventListener("click", clickHandler);
@@ -21,5 +21,5 @@ function clickHandler(e){
     // //set index state. This'll be handy when submitting a new task, we'll update the correct array
     setTodosContainerIndexToChange(id);
 
-    renderTodoList(+e.target.textContent);
+    renderTodoList();
 }

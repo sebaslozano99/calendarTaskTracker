@@ -43,6 +43,16 @@ export function deleteTaskTodosContainer(index, textOfElement){
     todosContainer[index] = todosContainer[index].filter(task => task.paragraph !== textOfElement);
 }
 
+export function updateTaskTodosContainer(index, textOfElement, newTask){
+    todosContainer[index].forEach((task) => {
+        if(task.paragraph === textOfElement){
+            task.paragraph = newTask;
+            task.isUpdating = false;
+        }
+        return;
+    });
+}
+
 export function updatingTaskTodosContainer(index, textOfElement){
     todosContainer[index].forEach(task => {
         if(task.paragraph === textOfElement){
