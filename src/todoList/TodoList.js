@@ -1,15 +1,18 @@
-import { modalEl, todosContainer, todosContainerIndexToChange, addTaskTodosContainer, deleteTaskTodosContainer, markAsCompletedTodosContainer, updatingTaskTodosContainer, setAllFalseIsUpdatingTodosContainer, updateTaskTodosContainer } from "../common.js";
-// import { displayCorrectMonth } from "../otherFunc.js";
+import { modalEl, todosContainer, todosContainerIndexToChange, addTaskTodosContainer, deleteTaskTodosContainer, markAsCompletedTodosContainer, updatingTaskTodosContainer, updateTaskTodosContainer, currentDate } from "../common.js";
 import renderTodoList from "./TodoListUi.js";
 
 
 
+
+
 // EVENT LISTENERS 
+
 modalEl.addEventListener("submit", submitHandler);
 modalEl.addEventListener("click", closeModal);
 modalEl.addEventListener("click", deleteTaskHandler);
 modalEl.addEventListener("click", markAsCompleted);
 modalEl.addEventListener("click", updateTaskHandler);
+
 
 
 
@@ -25,6 +28,8 @@ function closeModal(e){
     modalEl.classList.remove("appear");
 
 }
+
+
 
 
 
@@ -49,6 +54,7 @@ function submitHandler(e){
             paragraph: inputEl.value,
             isCompleted: false,
             isUpdating: false,
+            // date: currentDate.
         }
     
         // add new task to the specific array by passing the index
@@ -59,12 +65,19 @@ function submitHandler(e){
     }
 
     // after new task added to the specified day's todo list, re-render the UI 
+    // renderTodoListAndSetLocalStorage();
     renderTodoList();
+    localStorage.setItem("todosContainer", JSON.stringify(todosContainer));
 
     const inputAfterRerenderEl = modalEl.querySelector(".form__input");
 
     inputAfterRerenderEl.focus();
+
+    console.log(todosContainer);
 }
+
+
+
 
 
 function deleteTaskHandler(e){
@@ -77,11 +90,14 @@ function deleteTaskHandler(e){
     
     deleteTaskTodosContainer(todosContainerIndexToChange, usersTask);
     
+    // renderTodoListAndSetLocalStorage();
     renderTodoList();
+    localStorage.setItem("todosContainer", JSON.stringify(todosContainer));
 
-    console.log(todosContainer[todosContainerIndexToChange]); 
-    
 }
+
+
+
 
 
 function updateTaskHandler(e){
@@ -114,6 +130,9 @@ function updateTaskHandler(e){
 }
 
 
+
+
+
 function markAsCompleted(e){
 
     const target = e.target;
@@ -124,8 +143,8 @@ function markAsCompleted(e){
 
     markAsCompletedTodosContainer(todosContainerIndexToChange, usersTask);
 
+    // renderTodoListAndSetLocalStorage();
     renderTodoList();
-
-    console.log(todosContainer[todosContainerIndexToChange]);
+    localStorage.setItem("todosContainer", JSON.stringify(todosContainer));
 
 }

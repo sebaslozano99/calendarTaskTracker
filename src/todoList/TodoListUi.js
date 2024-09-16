@@ -5,10 +5,11 @@ import { displayCorrectMonth } from "../otherFunc.js";
 // MODAL HTML GENERATOR FUNCTION
 
 function renderTodoList(){
-    console.log("rendered!");
 
     //get correct array to display todolist of specific day
     const todoListThisDay = todosContainer[todosContainerIndexToChange];
+
+    const isUserUpdating = todoListThisDay.find((element) => element.isUpdating === true);
     
     const todoListLayout = `
         <button class="close-modal">x</button>
@@ -28,7 +29,7 @@ function renderTodoList(){
                     todoListThisDay.map(element => 
 
                     `<li class="list-item ${element.isUpdating && "isUpdating"}" >
-                        <input type="checkbox" name="isCompleted" class="isCompleted" ${element.isCompleted ? "checked" : ""} ${element.isUpdating && "disabled"} >
+                        <input type="checkbox" name="isCompleted" class="isCompleted" ${element.isCompleted ? "checked" : ""} ${isUserUpdating && "disabled"} >
                         <p class="${element.isCompleted ? "paragraph-completed" : ""}" >${element.paragraph}</p>
 
                         <div class="list-item__buttons-container" >

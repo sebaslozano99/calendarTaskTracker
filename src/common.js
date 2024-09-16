@@ -15,6 +15,8 @@ export const modalEl = document.querySelector(".modal");
 
 
 
+
+
 // ----- STATE VARIABLES -----
 
 export const currentDate = new Date(); // We get current date   
@@ -25,23 +27,38 @@ export let dateToDisplay = new Date(year, month); // current date starting from 
 export let currentMonthFirstDayName = dateToDisplay.toDateString().split(" ")[0]; //first 3 letters of the current day "Sun" for "Sunday"
 export let indexOfDay = indexOfDayName(currentMonthFirstDayName); // number associated to name of the first day of the month
 export let daysCurrentMonth = getAllDaysInTheMonth(); //we track how many days are in the current months
-export let todosContainer = []; // Array of arrays (tasks), that contains the todo list of each day
+export let todosContainer = JSON.parse(localStorage.getItem("todosContainer")) || []; // Array of arrays (tasks), that contains the todo list of each day
 export let todosContainerIndexToChange; 
+
+
+console.log(todosContainer);
 
 
 // ----- SETTER FUNCTIONS ----- 
 
 export function fillTodosContainer(newTodoList){
-    todosContainer.push(newTodoList);
+    todosContainer = [...todosContainer, newTodoList];
 }
+
+
+
+
 
 export function addTaskTodosContainer(newTaskObj, index){
     todosContainer[index].push(newTaskObj);
 }
 
+
+
+
+
 export function deleteTaskTodosContainer(index, textOfElement){
     todosContainer[index] = todosContainer[index].filter(task => task.paragraph !== textOfElement);
 }
+
+
+
+
 
 export function updateTaskTodosContainer(index, textOfElement, newTask){
     todosContainer[index].forEach((task) => {
@@ -52,6 +69,10 @@ export function updateTaskTodosContainer(index, textOfElement, newTask){
         return;
     });
 }
+
+
+
+
 
 export function updatingTaskTodosContainer(index, textOfElement){
     todosContainer[index].forEach(task => {
@@ -66,9 +87,16 @@ export function updatingTaskTodosContainer(index, textOfElement){
     });
 }
 
+
+
+
+
 export function setAllFalseIsUpdatingTodosContainer(index){
     todosContainer[index].forEach(element => element.isUpdating = false);
 }
+
+
+
 
 
 export function markAsCompletedTodosContainer(index, textOfElement){

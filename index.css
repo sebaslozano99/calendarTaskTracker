@@ -249,6 +249,10 @@ main {
     cursor: pointer;
 }
 
+.isCompleted:disabled {
+    cursor: not-allowed;
+}
+
 
 
 

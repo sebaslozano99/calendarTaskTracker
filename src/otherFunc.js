@@ -1,11 +1,16 @@
 import { indexOfDay, dateToDisplay, month, year, currentMonthFirstDayName, setCurrentMonthFirstDayName, setIndexOfDay, setDaysCurrentMonth, setDateToDisplay } from "./common.js ";
-
+import renderTodoList from "./todoList/TodoListUi.js";
 import { renderUI } from "../src/calendar/Calendar.js";
 
 
 
 
 // ----- OTHER FUNCTIONS -----
+
+export function renderTodoListAndSetLocalStorage(){
+    renderTodoList();
+    localStorage.setItem("todosContainer", JSON.stringify(todosContainer));
+}
 
 
 export function updateUI(){
