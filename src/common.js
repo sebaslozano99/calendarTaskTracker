@@ -43,6 +43,24 @@ export function deleteTaskTodosContainer(index, textOfElement){
     todosContainer[index] = todosContainer[index].filter(task => task.paragraph !== textOfElement);
 }
 
+export function updatingTaskTodosContainer(index, textOfElement){
+    todosContainer[index].forEach(task => {
+        if(task.paragraph === textOfElement){
+            if(task.isUpdating){
+                task.isUpdating = false;
+            }
+            else{
+                task.isUpdating = true;
+            }
+        }
+    });
+}
+
+export function setAllFalseIsUpdatingTodosContainer(index){
+    todosContainer[index].forEach(element => element.isUpdating = false);
+}
+
+
 export function markAsCompletedTodosContainer(index, textOfElement){
     todosContainer[index].forEach(task => {
         if(task.paragraph === textOfElement){

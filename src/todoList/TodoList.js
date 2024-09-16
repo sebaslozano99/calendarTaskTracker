@@ -1,4 +1,4 @@
-import { mainEl, modalEl, todosContainer, todosContainerIndexToChange, year, month, addTaskTodosContainer, deleteTaskTodosContainer, markAsCompletedTodosContainer } from "../common.js";
+import { mainEl, modalEl, todosContainer, todosContainerIndexToChange, year, month, addTaskTodosContainer, deleteTaskTodosContainer, markAsCompletedTodosContainer, updatingTaskTodosContainer, setAllFalseIsUpdatingTodosContainer } from "../common.js";
 import { displayCorrectMonth } from "../otherFunc.js";
 
 
@@ -8,6 +8,7 @@ mainEl.addEventListener("submit", submitHandler);
 mainEl.addEventListener("click", closeModal);
 mainEl.addEventListener("click", deleteTaskHandler);
 mainEl.addEventListener("click", markAsCompleted);
+mainEl.addEventListener("click", updateTaskHandler);
 
 
 
@@ -40,6 +41,7 @@ function submitHandler(e){
     const newTaskObj = {
         paragraph: inputEl.value,
         isCompleted: false,
+        isUpdating: false,
     }
 
     // add new task to the specific array by passing the index
@@ -60,7 +62,7 @@ function deleteTaskHandler(e){
     
     if(!target.matches(".delete-item")) return;
     
-    const usersTask = target.previousElementSibling.innerText;
+    const usersTask = target.parentElement.previousElementSibling.innerText;
     
     deleteTaskTodosContainer(todosContainerIndexToChange, usersTask);
     
@@ -75,11 +77,18 @@ function updateTaskHandler(e){
     
     if(!target.matches(".update-task")) return;
     
-    const usersTask = target.previousElementSibling.innerText;
-    
-    deleteTaskTodosContainer(todosContainerIndexToChange, usersTask);
-    
+    const usersTask = target.parentElement.previousElementSibling.innerText;
+
+    updatingTaskTodosContainer(todosContainerIndexToChange, usersTask);
+
+    // set all tasks's isUpdating property to false in case there is already a task that is being updated
+    // if(document.querySelectorAll(".isUpdating").length >= 1){
+    //     setAllFalseIsUpdatingTodosContainer(todosContainerIndexToChange);
+    // }
+
     renderTodoList(todosContainerIndexToChange);
+
+    console.log(document.querySelectorAll(".isUpdating").length);
     
 }
 
@@ -105,6 +114,7 @@ function markAsCompleted(e){
 // MODAL HTML GENERATOR FUNCTION
 
 function renderTodoList(day){
+    console.log("renmdered!");
 
     //get correct array to display todolist of specific day
     const todoListThisDay = todosContainer[todosContainerIndexToChange];
@@ -126,7 +136,7 @@ function renderTodoList(day){
                 ${todoListThisDay.length ?
                     todoListThisDay.map(element => 
 
-                    `<li class="list-item" >
+                    `<li class="list-item ${element.isUpdating && "isUpdating"}" >
                         <input type="checkbox" name="isCompleted" class="isCompleted" ${element.isCompleted ? "checked" : ""} >
                         <p class="${element.isCompleted ? "paragraph-completed" : ""}" >${element.paragraph}</p>
 
